@@ -13,7 +13,7 @@ function LogInUser() {
       h="100vh"
       justifyContent="center"
       alignItems={"center"}
-      bg={{ base: "#000" }}
+      bg={"#F2F6FF"}
     >
       <Image src={vasaLogo} w={205} h={150} />
       <Flex
@@ -24,6 +24,7 @@ function LogInUser() {
         direction="column"
         justifyContent={"space-around"}
         w="100%"
+        borderRadius={30}
       >
         <Flex alignItems={"center"} direction="column">
           <Text

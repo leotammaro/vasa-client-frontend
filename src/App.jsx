@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Admin from "./components/admin/Admin";
-import LogInUser from "./components/user/LogInUser";
 import User from "./components/user/User";
 import userContext from "./contexts/userContext.jsx";
+import LogInUser from "./components/user/LogInUser";
 import "./App.css";
 
 function App() {
