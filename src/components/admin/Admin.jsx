@@ -1,28 +1,57 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Text } from "@chakra-ui/layout";
+import { Text, Box } from "@chakra-ui/layout";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Outlet } from "react-router";
 import userContext from "../../contexts/userContext";
+import Navbar from "./Navbar";
 
 function Admin() {
-  const [loading, setLoading] = React.useState(true);
-  const { user, setUser } = React.useContext(userContext);
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+  const { userVasa, setUserVasa } = React.useContext(userContext);
+  const {
+    user,
+    loginWithRedirect,
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!isLoading && !user.user.isAdmin) {
-      const newUser = { ...user };
-      newUser.user.isAdmin = isAuthenticated;
-      setUser(newUser);
-      setLoading(false);
+    if (!isLoading && isAuthenticated && !userVasa.user) {
+      const getUserMetadata = async () => {
+        const domain = "https://vasa-server/api.";
+        try {
+          const accesToken = await getAccessTokenSilently({
+            audience: domain,
+          });
+          setUserVasa({
+            isLoading: false,
+            isLogged: true,
+            isAdmin: true,
+            user,
+            accesToken,
+          });
+        } catch (e) {
+          console.log(e.message);
+          navigate("/login");
+        }
+      };
+      getUserMetadata();
     }
-  }, [user, isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, user, getAccessTokenSilently]);
 
-  if (isLoading || loading) return <Text>Is loading....</Text>;
-  if (!isAuthenticated) return loginWithRedirect();
-  if (!user.user.isAdmin) navigate("/user");
-  return <div>Admin</div>;
+  if (!isAuthenticated && !isLoading) {
+    loginWithRedirect();
+    return null;
+  }
+  if (isLoading || userVasa.isLoading) return <Text>Is loading....</Text>;
+  if (!userVasa.isAdmin) navigate("/user");
+  return (
+    <Box>
+      <Navbar userName={userVasa.user && userVasa.user.nickname} />
+      <Outlet />
+    </Box>
+  );
 }
 
 export default Admin;

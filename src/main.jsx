@@ -5,13 +5,12 @@ import App from "./App";
 import "normalize.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Auth0Provider
-      domain="dev-a5t7pzgz.us.auth0.com"
-      clientId="utcl8PdXikiTa8OaYE36uTfTvOsSwyKZ"
-      redirectUri={window.location.origin + "/admin"}
-    >
-      <App />
-    </Auth0Provider>
-  </React.StrictMode>
+  <Auth0Provider
+    domain="dev-a5t7pzgz.us.auth0.com"
+    clientId="utcl8PdXikiTa8OaYE36uTfTvOsSwyKZ"
+    redirectUri={window.location.origin + "/admin"}
+    audience="https://vasa-server/api."
+  >
+    <App />
+  </Auth0Provider>
 );
