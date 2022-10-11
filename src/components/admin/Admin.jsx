@@ -19,7 +19,7 @@ function Admin() {
   useEffect(() => {
     if (!isLoading && isAuthenticated && !userVasa.user) {
       const getUserMetadata = async () => {
-        const domain = "https://vasa-server/api.";
+        const domain = import.meta.VITE_ADUCIENCE_URL;
         try {
           const accesToken = await getAccessTokenSilently({
             audience: domain,

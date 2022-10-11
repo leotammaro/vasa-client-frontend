@@ -6,10 +6,10 @@ import "normalize.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Auth0Provider
-    domain="dev-a5t7pzgz.us.auth0.com"
-    clientId="utcl8PdXikiTa8OaYE36uTfTvOsSwyKZ"
+    domain={import.meta.env.VITE_DOMAIN_URL}
+    clientId={import.meta.env.VITE_CLIENT_ID}
     redirectUri={window.location.origin + "/admin"}
-    audience="https://vasa-server/api."
+    audience={import.meta.env.VITE_AUDIENCE_URL}
   >
     <App />
   </Auth0Provider>
