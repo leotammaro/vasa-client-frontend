@@ -19,7 +19,7 @@ function Admin() {
   useEffect(() => {
     if (!isLoading && isAuthenticated && !userVasa.user) {
       const getUserMetadata = async () => {
-        const domain = import.meta.VITE_ADUCIENCE_URL;
+        const domain = import.meta.env.VITE_AUDIENCE_URL;
         try {
           const accesToken = await getAccessTokenSilently({
             audience: domain,
