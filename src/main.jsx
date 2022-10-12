@@ -5,13 +5,12 @@ import App from "./App";
 import "normalize.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Auth0Provider
-      domain="dev-a5t7pzgz.us.auth0.com"
-      clientId="utcl8PdXikiTa8OaYE36uTfTvOsSwyKZ"
-      redirectUri={window.location.origin + "/admin"}
-    >
-      <App />
-    </Auth0Provider>
-  </React.StrictMode>
+  <Auth0Provider
+    domain={import.meta.env.VITE_DOMAIN_URL}
+    clientId={import.meta.env.VITE_CLIENT_ID}
+    redirectUri={window.location.origin + "/admin"}
+    audience={import.meta.env.VITE_AUDIENCE_URL}
+  >
+    <App />
+  </Auth0Provider>
 );

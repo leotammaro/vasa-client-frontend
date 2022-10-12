@@ -1,28 +1,49 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Text } from "@chakra-ui/layout";
+import { Text, Box } from "@chakra-ui/layout";
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
+import { Outlet } from "react-router";
 import userContext from "../../contexts/userContext";
+import { saveAccessTokenToLocalStorage } from "../../services/saveAccessTokenToLocalStorage";
+import Navbar from "./Navbar";
 
 function Admin() {
-  const [loading, setLoading] = React.useState(true);
-  const { user, setUser } = React.useContext(userContext);
-  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
-  const navigate = useNavigate();
+  const { userVasa, setUserVasa } = React.useContext(userContext);
+  const {
+    user,
+    loginWithRedirect,
+    isAuthenticated,
+    isLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
 
   useEffect(() => {
-    if (!isLoading && !user.user.isAdmin) {
-      const newUser = { ...user };
-      newUser.user.isAdmin = isAuthenticated;
-      setUser(newUser);
-      setLoading(false);
+    const setAccessToken = async () => {
+      await saveAccessTokenToLocalStorage(getAccessTokenSilently);
+      setUserVasa({
+        isLoading: false,
+        isLogged: true,
+        isAdmin: true,
+        user,
+        accessToken: localStorage.getItem("accessToken"),
+      });
+    };
+    if (!isLoading && isAuthenticated && !userVasa.user) {
+      setAccessToken();
     }
-  }, [user, isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, user]);
 
-  if (isLoading || loading) return <Text>Is loading....</Text>;
-  if (!isAuthenticated) return loginWithRedirect();
-  if (!user.user.isAdmin) navigate("/user");
-  return <div>Admin</div>;
+  if (!isAuthenticated && !isLoading) {
+    loginWithRedirect();
+    return null;
+  }
+  if (isLoading || userVasa.isLoading) return <Text>Is loading....</Text>;
+  if (!userVasa.isAdmin) navigate("/user");
+  return (
+    <Box>
+      <Navbar userName={userVasa.user && userVasa.user.nickname} />
+      <Outlet />
+    </Box>
+  );
 }
 
 export default Admin;
