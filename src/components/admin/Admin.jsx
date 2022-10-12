@@ -1,8 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Text, Box } from "@chakra-ui/layout";
 import React, { useEffect } from "react";
-import { useNavigate, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import userContext from "../../contexts/userContext";
+import { saveAccessTokenToLocalStorage } from "../../services/saveAccessTokenToLocalStorage";
 import Navbar from "./Navbar";
 
 function Admin() {
@@ -14,31 +15,22 @@ function Admin() {
     isLoading,
     getAccessTokenSilently,
   } = useAuth0();
-  const navigate = useNavigate();
 
   useEffect(() => {
+    const setAccessToken = async () => {
+      await saveAccessTokenToLocalStorage(getAccessTokenSilently);
+      setUserVasa({
+        isLoading: false,
+        isLogged: true,
+        isAdmin: true,
+        user,
+        accessToken: localStorage.getItem("accessToken"),
+      });
+    };
     if (!isLoading && isAuthenticated && !userVasa.user) {
-      const getUserMetadata = async () => {
-        const domain = import.meta.env.VITE_AUDIENCE_URL;
-        try {
-          const accesToken = await getAccessTokenSilently({
-            audience: domain,
-          });
-          setUserVasa({
-            isLoading: false,
-            isLogged: true,
-            isAdmin: true,
-            user,
-            accesToken,
-          });
-        } catch (e) {
-          console.log(e.message);
-          navigate("/login");
-        }
-      };
-      getUserMetadata();
+      setAccessToken();
     }
-  }, [isAuthenticated, isLoading, user, getAccessTokenSilently]);
+  }, [isAuthenticated, isLoading, user]);
 
   if (!isAuthenticated && !isLoading) {
     loginWithRedirect();

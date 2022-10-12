@@ -2,7 +2,11 @@ import { Flex, Image, Input } from "@chakra-ui/react";
 import React from "react";
 import search from "../../assets/search.svg";
 
-function InputSearch({ placeholder }) {
+function InputSearch({ placeholder, setInputValue }) {
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
   return (
     <Flex
       border={"1px solid #000"}
@@ -22,6 +26,9 @@ function InputSearch({ placeholder }) {
         border="none"
         paddingX={10}
         _focusVisible={{ outline: "none" }}
+        onChange={(e) => {
+          handleChange(e);
+        }}
       />
     </Flex>
   );

@@ -12,18 +12,20 @@ import {
   Button,
   MenuList,
   MenuItem,
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 import { useTable } from "react-table";
 import ellipsis from "../assets/ellipsis.svg";
+import empty from "../assets/empty.svg";
 
-function TableData({ data, columns }) {
+function TableData({ tableData, columnsData }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns: columnsData, data: tableData });
 
   return (
     <>
-      {data.length > 0 && (
+      {tableData.length > 0 ? (
         <Flex justifyContent={"center"} w="100%" minW={600} paddingTop={10}>
           <Table
             {...getTableProps()}
@@ -89,10 +91,20 @@ function TableData({ data, columns }) {
                           background="none"
                         />
                         <MenuList fontSize={12} zIndex={100}>
-                          <MenuItem margin={3} padding={5}>
+                          <MenuItem
+                            margin={3}
+                            padding={8}
+                            borderRadius={7}
+                            border="none"
+                          >
                             Editar
                           </MenuItem>
-                          <MenuItem margin={3} padding={5}>
+                          <MenuItem
+                            margin={3}
+                            padding={8}
+                            borderRadius={7}
+                            border="none"
+                          >
                             Borrar
                           </MenuItem>
                         </MenuList>
@@ -103,6 +115,11 @@ function TableData({ data, columns }) {
               })}
             </Tbody>
           </Table>
+        </Flex>
+      ) : (
+        <Flex direction="column" alignItems="center">
+          <Image src={empty} height={100} />
+          <Text>No se encontraron resultados</Text>
         </Flex>
       )}
     </>
