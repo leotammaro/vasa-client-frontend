@@ -1,8 +1,9 @@
 import { Flex } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import InputSearch from "./InputSearch";
 import TableData from "../Table";
 import debounce from "lodash.debounce";
+import FormNewItem from "./FormNewItem";
 
 function TableFiltering({
   placeholder,
@@ -11,6 +12,8 @@ function TableFiltering({
   dataTable,
   dataColumns,
   value,
+  formTitle,
+  children,
 }) {
   const [inputValue, setInputValue] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -40,11 +43,15 @@ function TableFiltering({
 
   return (
     <Flex direction="column" margin={20}>
-      <InputSearch
-        placeholder={placeholder}
-        setInputValue={setInputValue}
-        inputValue={inputValue}
-      />
+      <Flex justifyContent="flex-end" gap={5}>
+        <FormNewItem formTitle={formTitle}>{children}</FormNewItem>
+        <InputSearch
+          placeholder={placeholder}
+          setInputValue={setInputValue}
+          inputValue={inputValue}
+        />
+      </Flex>
+
       {!loading && (
         <TableData columnsData={dataColumns} tableData={tableData} />
       )}

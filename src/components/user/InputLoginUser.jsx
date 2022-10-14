@@ -7,13 +7,19 @@ function InputLoginUser({ inputType, iconSrc, placeholder }) {
   return (
     <Flex
       border="1px solid #B6C2E2"
-      padding={5}
       borderRadius={6}
       alignItems="center"
       w="100%"
       maxW={490}
+      maxH={8}
     >
-      <Image src={iconSrc} h={15} paddingRight={5} opacity={0.8} />
+      <Image
+        src={iconSrc}
+        h={15}
+        paddingRight={5}
+        opacity={0.8}
+        marginLeft={3}
+      />
       <Input
         placeholder={placeholder}
         border="none"

@@ -38,11 +38,9 @@ function LogInUser() {
         </Flex>
         <Flex
           direction="column"
-          padding={15}
-          gap={28}
           justifyContent="center"
           alignItems="center"
-          marginBottom={80}
+          gap={8}
         >
           <InputLoginUser iconSrc={user} placeholder="Usuario" />
           <InputLoginUser
