@@ -48,8 +48,8 @@ function Navbar({ userName }) {
         <Text textTransform="capitalize">{userName}</Text>
         <Image
           src={logOut}
-          w={10}
-          h={10}
+          w={7}
+          h={7}
           onClick={() => {
             logout({ returnTo: window.location.origin });
             setUserVasa({

@@ -1,9 +1,8 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Spinner } from "@chakra-ui/react";
 import React from "react";
 import InputSearch from "./InputSearch";
 import TableData from "../Table";
 import debounce from "lodash.debounce";
-import FormNewItem from "./FormNewItem";
 
 function TableFiltering({
   placeholder,
@@ -12,7 +11,6 @@ function TableFiltering({
   dataTable,
   dataColumns,
   value,
-  formTitle,
   children,
 }) {
   const [inputValue, setInputValue] = React.useState("");
@@ -44,7 +42,7 @@ function TableFiltering({
   return (
     <Flex direction="column" margin={20}>
       <Flex justifyContent="flex-end" gap={5}>
-        <FormNewItem formTitle={formTitle}>{children}</FormNewItem>
+        {children}
         <InputSearch
           placeholder={placeholder}
           setInputValue={setInputValue}
@@ -52,8 +50,10 @@ function TableFiltering({
         />
       </Flex>
 
-      {!loading && (
+      {!loading ? (
         <TableData columnsData={dataColumns} tableData={tableData} />
+      ) : (
+        <Spinner alignSelf="center" marginTop={10} />
       )}
     </Flex>
   );

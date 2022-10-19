@@ -16,8 +16,9 @@ function Usuarios() {
       setValue={setUsers}
       getValue={getUsers}
       formTitle="usuario"
-      children={<UsersBodyForm />}
-    />
+    >
+      <UsersBodyForm />
+    </TableFiltering>
   );
 }
 
