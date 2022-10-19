@@ -16,8 +16,9 @@ function Materiales() {
       setValue={setMateriales}
       getValue={getMaterials}
       formTitle="material"
-      children={<MaterialsBodyForm />}
-    />
+    >
+      <MaterialsBodyForm />
+    </TableFiltering>
   );
 }
 
