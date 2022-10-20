@@ -29,12 +29,12 @@ function TableData({ tableData, columnsData }) {
         <Flex justifyContent={"center"} w="100%" minW={600} paddingTop={10}>
           <Table
             {...getTableProps()}
-            minW={600}
+            minW={500}
             w="100%"
             cellSpacing={0}
             borderRadius={16}
           >
-            <Thead bg="#F9F9F9" w="100%" h={56}>
+            <Thead bg="#F9F9F9" w="100%" h={15}>
               {
                 // Loop over the header rows
                 headerGroups.map((headerGroup) => (
@@ -47,7 +47,7 @@ function TableData({ tableData, columnsData }) {
                         <Th
                           {...column.getHeaderProps()}
                           fontSize={12}
-                          padding={0}
+                          textAlign="center"
                         >
                           {
                             // Render the header
@@ -71,7 +71,6 @@ function TableData({ tableData, columnsData }) {
                         <Td
                           key={index}
                           {...cell.getCellProps()}
-                          padding={15}
                           textAlign="center"
                           fontSize={12}
                         >
@@ -90,21 +89,17 @@ function TableData({ tableData, columnsData }) {
                           border="none"
                           background="none"
                         />
-                        <MenuList fontSize={12} zIndex={100}>
-                          <MenuItem
-                            margin={3}
-                            padding={8}
-                            borderRadius={7}
-                            border="none"
-                          >
+                        <MenuList
+                          fontSize={10}
+                          zIndex={100}
+                          minWidth="100px"
+                          maxW={"150px"}
+                          gap={3}
+                        >
+                          <MenuItem borderRadius={7} border="none">
                             Editar
                           </MenuItem>
-                          <MenuItem
-                            margin={3}
-                            padding={8}
-                            borderRadius={7}
-                            border="none"
-                          >
+                          <MenuItem borderRadius={7} border="none">
                             Borrar
                           </MenuItem>
                         </MenuList>

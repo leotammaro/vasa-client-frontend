@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "normalize.css";
+import { ChakraProvider } from "@chakra-ui/react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Auth0Provider
@@ -11,6 +12,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     redirectUri={window.location.origin + "/admin"}
     audience={import.meta.env.VITE_AUDIENCE_URL}
   >
-    <App />
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </Auth0Provider>
 );
