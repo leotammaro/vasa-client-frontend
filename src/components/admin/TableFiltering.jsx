@@ -6,12 +6,13 @@ import debounce from "lodash.debounce";
 
 function TableFiltering({
   placeholder,
-  setValue,
+  setNewData,
   getValue,
   dataTable,
   dataColumns,
   value,
   children,
+  deleteValue,
 }) {
   const [inputValue, setInputValue] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -21,7 +22,7 @@ function TableFiltering({
       debounce((value) => {
         setLoading(true);
         getValue(value).then((response) => {
-          setValue(response);
+          setNewData(response);
           setLoading(false);
         });
       }, 500),
@@ -51,7 +52,12 @@ function TableFiltering({
       </Flex>
 
       {!loading ? (
-        <TableData columnsData={dataColumns} tableData={tableData} />
+        <TableData
+          columnsData={dataColumns}
+          tableData={tableData}
+          setNewData={setNewData}
+          deleteValue={deleteValue}
+        />
       ) : (
         <Spinner alignSelf="center" marginTop={10} />
       )}

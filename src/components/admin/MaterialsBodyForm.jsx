@@ -13,13 +13,22 @@ import {
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import InputForm from "./InputForm";
+import { createMaterial } from "../../services/materialsServices";
 
-function MaterialsBodyForm() {
+function MaterialsBodyForm({ setMateriales }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef(null);
   const methods = useForm();
   const { handleSubmit, clearErrors } = methods;
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await createMaterial(data);
+      await setMateriales((materials) => [...materials, data]);
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>

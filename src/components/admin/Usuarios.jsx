@@ -4,6 +4,7 @@ import { columnsUsuarios } from "../../constants/columnsTable";
 import { getUsers } from "../../services/usersServices";
 import TableFiltering from "./TableFiltering";
 import UsersBodyForm from "./UsersBodyForm";
+import { deleteUser } from "../../services/usersServices";
 
 function Usuarios() {
   const [users, setUsers] = React.useState([]);
@@ -13,11 +14,12 @@ function Usuarios() {
       dataTable={dataUsuarios}
       dataColumns={columnsUsuarios}
       value={users}
-      setValue={setUsers}
+      setNewData={setUsers}
       getValue={getUsers}
       formTitle="usuario"
+      deleteValue={deleteUser}
     >
-      <UsersBodyForm />
+      <UsersBodyForm setUsers={setUsers} />
     </TableFiltering>
   );
 }

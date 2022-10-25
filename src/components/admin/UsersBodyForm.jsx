@@ -13,13 +13,22 @@ import {
 } from "@chakra-ui/react";
 import InputForm from "./InputForm";
 import { FormProvider, useForm } from "react-hook-form";
+import { createUser } from "../../services/usersServices";
 
-function UsersBodyForm() {
+function UsersBodyForm({ setUsers }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef(null);
   const methods = useForm();
   const { handleSubmit, clearErrors } = methods;
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      await createUser(data);
+      await setUsers((users) => [...users, data]);
+      onClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>

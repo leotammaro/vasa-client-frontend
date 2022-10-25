@@ -4,6 +4,7 @@ import { columnsMateriales } from "../../constants/columnsTable";
 import { getMaterials } from "../../services/materialsServices";
 import TableFiltering from "./TableFiltering";
 import MaterialsBodyForm from "./MaterialsBodyForm";
+import { deleteMaterial } from "../../services/materialsServices";
 
 function Materiales() {
   const [materiales, setMateriales] = React.useState([]);
@@ -13,11 +14,15 @@ function Materiales() {
       dataTable={dataMateriales}
       dataColumns={columnsMateriales}
       value={materiales}
-      setValue={setMateriales}
+      setNewData={setMateriales}
       getValue={getMaterials}
       formTitle="material"
+      deleteValue={deleteMaterial}
     >
-      <MaterialsBodyForm />
+      <MaterialsBodyForm
+        materiales={materiales}
+        setMateriales={setMateriales}
+      />
     </TableFiltering>
   );
 }

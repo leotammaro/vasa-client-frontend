@@ -18,10 +18,17 @@ import React from "react";
 import { useTable } from "react-table";
 import ellipsis from "../assets/ellipsis.svg";
 import empty from "../assets/empty.svg";
+import { deleteData } from "../services/dataServices";
 
-function TableData({ tableData, columnsData }) {
+function TableData({ tableData, columnsData, setNewData, deleteValue }) {
+  const getId = (index) => {
+    return tableData[index].id;
+  };
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns: columnsData, data: tableData });
+    useTable({
+      columns: columnsData,
+      data: tableData?.map(({ data }) => ({ ...data })),
+    });
 
   return (
     <>
@@ -62,14 +69,20 @@ function TableData({ tableData, columnsData }) {
               }
             </Thead>
             <Tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
+              {rows.map((row, rowIndex) => {
                 prepareRow(row);
                 return (
-                  <Tr {...row.getRowProps()}>
-                    {row.cells.map((cell, index) => {
+                  <Tr
+                    {...row.getRowProps({
+                      onClick: () => {
+                        getId(rowIndex);
+                      },
+                    })}
+                  >
+                    {row.cells.map((cell, cellIndex) => {
                       return (
                         <Td
-                          key={index}
+                          key={cellIndex}
                           {...cell.getCellProps()}
                           textAlign="center"
                           fontSize={12}
@@ -99,7 +112,17 @@ function TableData({ tableData, columnsData }) {
                           <MenuItem borderRadius={7} border="none">
                             Editar
                           </MenuItem>
-                          <MenuItem borderRadius={7} border="none">
+                          <MenuItem
+                            borderRadius={7}
+                            border="none"
+                            onClick={() => {
+                              deleteData(
+                                setNewData,
+                                getId(rowIndex),
+                                deleteValue
+                              );
+                            }}
+                          >
                             Borrar
                           </MenuItem>
                         </MenuList>
